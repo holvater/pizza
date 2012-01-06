@@ -1,12 +1,14 @@
 package mx.jfnm.ejemplo.pizza.order;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import mx.jfnm.ejemplo.pizza.account.Authenticated;
 import mx.jfnm.ejemplo.pizza.domain.Address;
 import mx.jfnm.ejemplo.pizza.domain.Order;
@@ -30,11 +32,13 @@ public class PizzaOrderAgent implements Serializable {
     private User user;
     
     private Order order;
-    
     private Pizza currentPizza;   
     
     @Inject
     private Conversation conversation;  
+    
+    @Inject
+    private EntityManager em;
     
     @Named
     @Produces
@@ -53,13 +57,17 @@ public class PizzaOrderAgent implements Serializable {
     
     @Begin
     public void begin() {                           
-        currentPizza = new Pizza();
         order = new Order(user);            
+        currentPizza = new Pizza(order);
     }
     
     @End
-    public void confirm() {
-        
+    public String confirmOrder() {
+        order.setCreationDate(new Date());
+        for(Pizza p: order.getPizzas())
+            em.persist(p);
+        em.persist(order);
+        return "completed";
     }
 
     @End
@@ -79,7 +87,7 @@ public class PizzaOrderAgent implements Serializable {
     public String addPizzaToOrder() {        
         order.getPizzas().remove(currentPizza);
         order.getPizzas().add(currentPizza);
-        currentPizza = new Pizza();        
+        currentPizza = new Pizza(order);        
         return "createOrder";
     }        
     

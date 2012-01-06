@@ -2,12 +2,12 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="admin/admin.xhtml" x="150" y="450" zoom="true"/>
         <Node id="conversation_ended.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="admin/admin.xhtml" x="150" y="450" zoom="true"/>
         <Node id="order/delivery.xhtml" x="400" y="450" zoom="true"/>
         <Node id="login.xhtml" x="650" y="150" zoom="true"/>
-        <Node id="denied.xhtml" x="150" y="300" zoom="true"/>
         <Node id="index.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="denied.xhtml" x="150" y="300" zoom="true"/>
         <Node id="*" x="900" y="150" zoom="true"/>
         <Node id="order/confirm.xhtml" x="400" y="150" zoom="true"/>
         <Node id="order/create.xhtml" x="150" y="150" zoom="true"/>

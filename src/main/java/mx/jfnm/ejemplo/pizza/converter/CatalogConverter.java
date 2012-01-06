@@ -5,15 +5,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import mx.jfnm.ejemplo.pizza.domain.Catalog;
 
 @RequestScoped
 @FacesConverter("catalogConverter")
 public class CatalogConverter implements Converter {
 
-    @PersistenceContext
+    @Inject
     private EntityManager em;
     
     @Override

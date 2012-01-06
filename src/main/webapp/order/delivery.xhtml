@@ -13,7 +13,8 @@
 
     <ui:define name="metadata">
         <f:metadata>            
-            <s:viewAction action="#{pizzaOrderAgent.begin}" if="#{conversation.transient}"/>              
+            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null
+                                                     || empty pizzaOrderAgent.order.pizzas}"/>              
         </f:metadata>
     </ui:define>
 
@@ -32,7 +33,7 @@
                         <br/>
                         Zip #{address.zipCode}, #{address.state.shortDescription}, #{address.country.shortDescription}                                            
                         <br/>
-                        <p:commandButton value="Select" action="#{pizzaOrderAgent.addAddressToOrder(address)}" 
+                        <p:commandButton value="#{msgs.button_select}" action="#{pizzaOrderAgent.addAddressToOrder(address)}" 
                                            ajax="false"/>
                         <p:separator style="width:500px;"/> 
                     </ui:repeat>

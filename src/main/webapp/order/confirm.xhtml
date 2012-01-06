@@ -6,27 +6,59 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"                
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:s="http://jboss.org/seam/faces"
-                template="/WEB-INF/templates/layout.xhtml">
-    
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+
     <ui:define name="head">
-        
-        <s:viewAction action="#{pizzaOrderAgent.begin}"/>  
-        
+        <f:metadata>            
+            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null
+                                                     || empty pizzaOrderAgent.order.pizzas}"/>              
+        </f:metadata>
     </ui:define>
 
     <ui:define name="content">
 
         <h2>Order</h2>
 
-        <h:form>        
-            <p:toolbar>  
-                <p:toolbarGroup align="left">  
-                    <p:commandButton type="button" value="Size" icon="ui-icon-document" />  
-                    <p:commandButton type="button" value="Crust" icon="ui-icon-document" />  
-                    <p:commandButton type="button" value="Toppings" icon="ui-icon-document" />  
-                    <p:commandButton type="button" value="Domicilio" icon="ui-icon-document" />  
-                </p:toolbarGroup>
-            </p:toolbar>                
+        <h:form>      
+
+            <p:panel header="#{msgs.confirm_pizzas}">
+                <ui:repeat value="#{order.pizzas}" var="pizza">
+                    <h:outputText value="#{pizza.size.shortDescription} #{pizza.crust.shortDescription} Pizza" 
+                                  styleClass="important"/>
+                    <br/>           
+                    <h:outputLabel value="Toppings:" styleClass="boldLabel"/>
+                    <ui:repeat value="#{pizza.toppings}" var="topping">                                    
+                        #{topping.shortDescription},         
+                    </ui:repeat>         
+                    <br/>
+                    <p:commandLink value="Edit" action="#{pizzaOrderAgent.editPizza(pizza)}" 
+                                   ajax="false"/>
+                    <p:spacer width="20"/>
+                    <p:commandLink value="Remove" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
+                                   update="order"/>
+
+                    <p:separator style="width:200px;" /> 
+                </ui:repeat> 
+            </p:panel>
+            <p:panel header="#{msgs.confirm_address}">
+                <h:outputText value="#{msgs.delivery_address}" 
+                              styleClass="boldLabel"/>
+                <br/>
+                #{address.street} #{order.address.exteriorNumber} 
+                <h:outputText value="- #{order.address.interiorNumber}" 
+                              rendered="#{order.address.interiorNumber ne null}"/>
+                <br/>
+                Zip #{address.zipCode}, #{order.address.state.shortDescription}, #{order.address.country.shortDescription}                                            
+                <br/>
+                <p:commandLink value="#{msgs.button_changeDeliveryAddress}" 
+                               action="delivery" ajax="false"/>
+            </p:panel>
+            <br/>
+            <p:commandButton action="#{pizzaOrderAgent.confirmOrder()}" ajax="false"
+                             value="#{msgs.button_confirm}"/>
+            <p:commandButton action="#{pizzaOrderAgent.cancelOrder()}" ajax="false"
+                             value="#{msgs.button_cancel}"/>
         </h:form>
 
     </ui:define>
