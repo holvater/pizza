@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ul class="navigation">
+        <li><h:link value="#{msgs.navigation_index}" outcome="/index.xhtml"/></li>
+        <li><h:link value="#{msgs.navigation_services}" outcome="/login.xhtml"/></li>
+        <li>
+            <h:link value="#{msgs.navigation_order}" outcome="createOrder">
+                <f:param name="cid" value="#{conversation.id}" disable="#{conversation.transient}"/>
+            </h:link>
+        </li>
+        <li><h:link value="#{msgs.navigation_contact}" outcome="/index.xhtml"/></li>      
+    </ul>
+
+</ui:composition>

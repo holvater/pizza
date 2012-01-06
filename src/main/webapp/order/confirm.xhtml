@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:s="http://jboss.org/seam/faces"
+                template="/WEB-INF/templates/layout.xhtml">
+    
+    <ui:define name="head">
+        
+        <s:viewAction action="#{pizzaOrderAgent.begin}"/>  
+        
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h2>Order</h2>
+
+        <h:form>        
+            <p:toolbar>  
+                <p:toolbarGroup align="left">  
+                    <p:commandButton type="button" value="Size" icon="ui-icon-document" />  
+                    <p:commandButton type="button" value="Crust" icon="ui-icon-document" />  
+                    <p:commandButton type="button" value="Toppings" icon="ui-icon-document" />  
+                    <p:commandButton type="button" value="Domicilio" icon="ui-icon-document" />  
+                </p:toolbarGroup>
+            </p:toolbar>                
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
