@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>#{title}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <h:outputStylesheet library="css" name="coda-slider.css"/>
+        <h:outputStylesheet library="css" name="templatemo_style.css"/>                
+        <ui:insert name="metadata"/>
+    </h:head>
+
+    <h:body>        
+
+        <div id="templatemo_wrapper">
+
+            <div id="templatemo_top">     
+                <div id="social_box">
+                    <ui:insert name="header">                        
+                        <ui:include src="header.xhtml"/>
+                    </ui:insert>                        
+                </div>
+            </div>
+
+            <div id="header">
+
+                <div id="sitetite">
+                    <h1><a href="http://www.templatemo.com" target="_parent"><h:graphicImage library="images" name="pizza.png" /></a></h1>
+                </div> 
+
+                <ui:insert name="navigation">                        
+                    <ui:include src="navigation.xhtml"/>
+                </ui:insert>  
+
+            </div>
+
+            <div class="content">
+                <div class="panel">
+
+                    <ui:insert name="content">
+                        [Content will be inserted here]
+                    </ui:insert>
+
+                </div>        
+            </div>
+
+            <div id="templatemo_footer">
+                Copyright 2048 <a href="#">Juan Francisco Navarrete Martinez</a> | <a href="http://www.iwebsitetemplate.com" target="_parent">Website Templates</a> by <a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a>
+            </div>     
+
+        </div>
+    </h:body>
+
+</html>

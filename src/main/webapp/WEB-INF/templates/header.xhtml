@@ -1,0 +1,13 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:panelGroup rendered="#{identity.loggedIn}">
+        <h:form>
+            #{msgs.security_logged_in} <b>#{identity.user.id}</b> - 
+            <h:commandLink value="#{msgs.button_log_out}" action="#{passportAgent.logout}" />
+        </h:form>
+    </h:panelGroup> 
+
+</ui:composition>

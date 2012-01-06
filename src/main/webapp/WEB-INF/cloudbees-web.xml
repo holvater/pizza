@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">     
+    <appid>pizza</appid>
+    <context-param>
+        <param-name>application.environment</param-name>
+        <param-value>prod</param-value>
+    </context-param>
+    <resource name="jdbc/pizza" auth="Container" type="javax.sql.DataSource">
+        <param name="username" value="pizzaapp" />
+        <param name="password" value="pizzaapp" />
+        <param name="url" value="jdbc:mysql://ec2-174-129-9-255.compute-1.amazonaws.com:3306/pizza?autoReconnect=true"/>        
+    </resource>
+</cloudbees-web-app>

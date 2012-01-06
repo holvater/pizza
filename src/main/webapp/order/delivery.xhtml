@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:s="http://jboss.org/seam/faces"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:param name="title" value="Pizza - Delivery Address" />
+
+    <ui:define name="metadata">
+        <f:metadata>            
+            <s:viewAction action="#{pizzaOrderAgent.begin}" if="#{conversation.transient}"/>              
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">       
+
+        <div class="col_w540">
+            <h2>Delivery Address</h2>
+
+            <h:form>                   
+                <p:panel header="#{msgs.delivery_message}">
+                    <ui:repeat value="#{userAddresses}" var="address">
+                        <h:outputText value="#{msgs.delivery_address}" 
+                                          styleClass="boldLabel"/>
+                        <br/>
+                        #{address.street} #{address.exteriorNumber} <h:outputText value="- #{address.interiorNumber}" rendered="#{address.interiorNumber ne null}"/>
+                        <br/>
+                        Zip #{address.zipCode}, #{address.state.shortDescription}, #{address.country.shortDescription}                                            
+                        <br/>
+                        <p:commandButton value="Select" action="#{pizzaOrderAgent.addAddressToOrder(address)}" 
+                                           ajax="false"/>
+                        <p:separator style="width:500px;"/> 
+                    </ui:repeat>
+                </p:panel>
+
+            </h:form>            
+        </div>
+
+        <div class="col_w240 last_col">
+            <p:panel header="Order" id="order">	  
+                <h:form>
+                    <h:outputText rendered="#{empty order.pizzas}" value="Your order is currently empty."/>
+                    <h:panelGroup rendered="#{not empty order.pizzas}">
+                        <ui:repeat value="#{order.pizzas}" var="pizza">
+                            <h:outputText value="#{pizza.size.shortDescription} #{pizza.crust.shortDescription} Pizza" 
+                                          styleClass="important"/>
+                            <br/>           
+                            <h:outputLabel value="Toppings:" styleClass="boldLabel"/>
+                            <ui:repeat value="#{pizza.toppings}" var="topping">                                    
+                                #{topping.shortDescription},         
+                            </ui:repeat>         
+                            <br/>
+                            <p:commandLink value="Edit" action="#{pizzaOrderAgent.editPizza(pizza)}" 
+                                           ajax="false"/>
+                            <p:spacer width="20"/>
+                            <p:commandLink value="Remove" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
+                                           update="order"/>
+
+                            <p:separator style="width:200px;" /> 
+                        </ui:repeat>                         
+                        <p:spacer width="25"/>
+                        <p:commandButton value="Cancel" action="#{pizzaOrderAgent.cancelOrder}" ajax="false"/>
+                    </h:panelGroup>                    
+                </h:form>
+            </p:panel>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
