@@ -1,4 +1,4 @@
-package mx.jfnm.ejemplo.pizza.log;
+package mx.jfnm.ejemplo.pizza.logs;
 
 import org.jboss.solder.logging.Log;
 import org.jboss.solder.logging.MessageLogger;

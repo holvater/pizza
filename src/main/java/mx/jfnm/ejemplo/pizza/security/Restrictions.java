@@ -9,6 +9,8 @@ public class Restrictions {
     @Admin
     public boolean isAdmin(Identity identity   ) {
         System.out.println("isAdmin?");
+        if(identity!=null)
+            return identity.hasRole("", "", "");
         return false;
     }
 

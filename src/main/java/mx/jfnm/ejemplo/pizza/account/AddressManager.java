@@ -33,7 +33,8 @@ public class AddressManager {
     @Produces
     public List<Address> getUserAddresses() {
         if(userAddresses == null)
-            userAddresses = em.createNamedQuery(Address.FINDBYUSERNAME).setParameter("username", user.getUsername()).getResultList();
+            userAddresses = em.createNamedQuery(Address.FINDBYUSERNAME)
+                    .setParameter("username", user.getUsername()).getResultList();
         return userAddresses;
     }
    

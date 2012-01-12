@@ -2,7 +2,6 @@ package mx.jfnm.ejemplo.pizza.exceptioncontrol;
 
 import javax.enterprise.context.NonexistentConversationException;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import org.jboss.solder.exception.control.CaughtException;
 import org.jboss.solder.exception.control.Handles;
 import org.jboss.solder.exception.control.HandlesExceptions;

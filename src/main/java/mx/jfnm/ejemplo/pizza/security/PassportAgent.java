@@ -8,7 +8,7 @@ import java.io.Serializable;
 import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
 import javax.inject.Named;
-import mx.jfnm.ejemplo.pizza.log.SecurityLog;
+import mx.jfnm.ejemplo.pizza.logs.SecurityLog;
 import org.jboss.seam.security.Identity;
 
 /**

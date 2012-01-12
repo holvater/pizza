@@ -40,7 +40,7 @@ public class User implements Serializable{
         return active;
     }
 
-    public void setActivo(Boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

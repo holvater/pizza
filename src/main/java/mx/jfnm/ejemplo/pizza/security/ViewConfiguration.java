@@ -20,6 +20,10 @@ public interface ViewConfiguration {
         @Customer
         PLACE_ORDER,
         
+        @ViewPattern("/admin/*")
+        @Admin
+        ADMIN,
+        
         @FacesRedirect
         @ViewPattern("/*")
         @AccessDeniedView("/denied.xhtml")

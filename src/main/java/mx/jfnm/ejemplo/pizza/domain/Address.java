@@ -1,5 +1,6 @@
 package mx.jfnm.ejemplo.pizza.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @NamedQueries({
         @NamedQuery(name = Address.FINDBYUSERNAME, query = "select a from Address a where a.user.username = :username and a.active = true")
 })
-public class Address {
+public class Address implements Serializable{
 
     @Id
     @Column(name = "id")
