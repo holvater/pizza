@@ -10,6 +10,9 @@
             <h:link value="#{msgs.navigation_order}" outcome="createOrder">
                 <f:param name="cid" value="#{conversation.id}" disable="#{conversation.transient}"/>
             </h:link>
+            <h:link value="#{msgs.navigation_admin}" outcome="admin">
+                <f:param name="cid" value="#{conversation.id}" disable="#{conversation.transient}"/>
+            </h:link>
         </li>
         <li><h:link value="#{msgs.navigation_contact}" outcome="/index.xhtml"/></li>      
     </ul>

@@ -10,7 +10,7 @@ public class Restrictions {
     public boolean isAdmin(Identity identity   ) {
         System.out.println("isAdmin?");
         if(identity!=null)
-            return identity.hasRole("", "", "");
+            return identity.hasRole("ROOT", "ADMINISTRATORS", "USERS");
         return false;
     }
 

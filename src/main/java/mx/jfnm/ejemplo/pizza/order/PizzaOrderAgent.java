@@ -56,7 +56,7 @@ public class PizzaOrderAgent implements Serializable {
     }             
     
     @Begin
-    public void begin() {                           
+    public void begin() {
         order = new Order(user);            
         currentPizza = new Pizza(order);
     }

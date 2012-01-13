@@ -16,13 +16,13 @@ public interface ViewConfiguration {
     
     static enum Configuration{
         
-        @ViewPattern("/order/*")
-        @Customer
-        PLACE_ORDER,
-        
         @ViewPattern("/admin/*")
         @Admin
         ADMIN,
+        
+        @ViewPattern("/order/*")
+        @Customer
+        PLACE_ORDER,
         
         @FacesRedirect
         @ViewPattern("/*")
