@@ -1,8 +1,9 @@
 package mx.jfnm.ejemplo.pizza.account;
 
+import java.util.Currency;
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,8 +17,9 @@ import mx.jfnm.ejemplo.pizza.domain.User;
  * @author Juan Fco. Navarrete
  */
 
+@Named
 @Stateful
-@SessionScoped
+@ConversationScoped
 public class AddressManager {
     
     @Inject
@@ -28,13 +30,29 @@ public class AddressManager {
     private User user;
     
     private List<Address> userAddresses;
+    
+    private Address currentAddress = new Address();
+    
+    @Named   
+    @Produces
+    @CurrentAddress
+    public Address getCurrentAddress() {
+        return currentAddress;
+    }
+
+    public void setCurrentAddress(Address currentAddress) {        
+        this.currentAddress = currentAddress;
+    }
+    
+    public void saveAddress(Address currentAddress) {
+        em.merge(currentAddress);
+    }
         
     @Named
     @Produces
-    public List<Address> getUserAddresses() {
-        if(userAddresses == null)
-            userAddresses = em.createNamedQuery(Address.FINDBYUSERNAME)
-                    .setParameter("username", user.getUsername()).getResultList();
+    @ConversationScoped
+    public List<Address> getUserAddresses() {        
+        userAddresses = em.createNamedQuery(Address.FIND_BY_USERNAME).setParameter("username", user.getUsername()).getResultList();
         return userAddresses;
     }
    

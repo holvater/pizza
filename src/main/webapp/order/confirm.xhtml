@@ -6,60 +6,51 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"                
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:s="http://jboss.org/seam/faces"
-                template="/WEB-INF/templates/layout.xhtml"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp"
+                template="/WEB-INF/templates/layout.xhtml">
 
-    <ui:define name="head">
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.confirm_title}" />
+
+    <ui:define name="metadata">        
         <f:metadata>            
-            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null
-                                                     || empty pizzaOrderAgent.order.pizzas}"/>              
+            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null || empty pizzaOrderAgent.order.pizzas}"/>              
         </f:metadata>
     </ui:define>
 
-    <ui:define name="content">
+    <ui:define name="content">       
 
-        <h2>Order</h2>
+        <div class="col_w540">            
+            <h:form id="form">                                   
+                <h2>#{msgs.confirm_title}</h2>
+                #{msgs.confirm_message}
+                <br/><br/>                
+                <p:commandButton action="#{pizzaOrderAgent.confirmOrder}" ajax ="false"
+                                 value="#{msgs.button_confirm}" disabled="#{empty order.pizzas}"/>
+                <p:spacer width="20"/>
+                <p:commandButton action="#{pizzaOrderAgent.cancelOrder}" ajax ="false"
+                                 value="#{msgs.button_cancel}"/>                
+            </h:form>            
+        </div>
 
-        <h:form>      
-
-            <p:panel header="#{msgs.confirm_pizzas}">
-                <ui:repeat value="#{order.pizzas}" var="pizza">
-                    <h:outputText value="#{pizza.size.shortDescription} #{pizza.crust.shortDescription} Pizza" 
-                                  styleClass="important"/>
-                    <br/>           
-                    <h:outputLabel value="Toppings:" styleClass="boldLabel"/>
-                    <ui:repeat value="#{pizza.toppings}" var="topping">                                    
-                        #{topping.shortDescription},         
-                    </ui:repeat>         
-                    <br/>
-                    <p:commandLink value="Edit" action="#{pizzaOrderAgent.editPizza(pizza)}" 
-                                   ajax="false"/>
-                    <p:spacer width="20"/>
-                    <p:commandLink value="Remove" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
-                                   update="order"/>
-
-                    <p:separator style="width:200px;" /> 
-                </ui:repeat> 
-            </p:panel>
-            <p:panel header="#{msgs.confirm_address}">
-                <h:outputText value="#{msgs.delivery_address}" 
-                              styleClass="boldLabel"/>
-                <br/>
-                #{address.street} #{order.address.exteriorNumber} 
-                <h:outputText value="- #{order.address.interiorNumber}" 
-                              rendered="#{order.address.interiorNumber ne null}"/>
-                <br/>
-                Zip #{address.zipCode}, #{order.address.state.shortDescription}, #{order.address.country.shortDescription}                                            
-                <br/>
-                <p:commandLink value="#{msgs.button_changeDeliveryAddress}" 
-                               action="delivery" ajax="false"/>
-            </p:panel>
+        <div class="col_w240 last_col">
+            <ez:pizzaOrder showAddPizzaButton="true" id="pizzas"/>                             
             <br/>
-            <p:commandButton action="#{pizzaOrderAgent.confirmOrder()}" ajax="false"
-                             value="#{msgs.button_confirm}"/>
-            <p:commandButton action="#{pizzaOrderAgent.cancelOrder()}" ajax="false"
-                             value="#{msgs.button_cancel}"/>
-        </h:form>
+            <p:panel header="#{msgs.create_deliveryAddress}">	  
+                <h:form>
+                    <h:outputText value="#{msgs.delivery_address}" 
+                                  styleClass="important"/>
+                    <br/>
+                    #{order.address.street} #{order.address.exteriorNumber} 
+                    <h:outputText value="- #{order.address.interiorNumber}" rendered="#{orderaddress.interiorNumber ne null}"/>
+                    <br/>
+                    Zip #{order.address.zipCode}, #{order.address.state.shortDescription}, #{order.address.country.shortDescription}                     
+                    <p:separator style="width:200px;" /> 
+                    <p:commandButton value="#{msgs.button_changeAddress}" action="delivery"
+                                     ajax="false"/>                      
+                </h:form>
+            </p:panel>
+        </div>
 
     </ui:define>
 

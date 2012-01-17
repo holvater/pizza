@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "corporate_catalog")
 @NamedQueries({
-        @NamedQuery(name = Catalog.FINDBYGROUP, query = "select c from Catalog c where c.group.id = :groupId and c.active = true")
+        @NamedQuery(name = Catalog.FIND_BY_GROUP, query = "select c from Catalog c where c.group.id = :groupId and c.active = true")
 })
 public class Catalog implements Serializable {
     
@@ -42,7 +42,7 @@ public class Catalog implements Serializable {
     @Column(name = "active")
     private Boolean active;
     
-    public static final String FINDBYGROUP = "Catalog.findByGroup";        
+    public static final String FIND_BY_GROUP = "Catalog.findByGroup";        
 
     public Catalog() {
     }
@@ -120,6 +120,11 @@ public class Catalog implements Serializable {
         int hash = 3;
         hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Catalog{" + "id=" + id + ", group=" + group + ", shortDescription=" + shortDescription + ", longDescription=" + longDescription + ", active=" + active + '}';
     }
         
 }

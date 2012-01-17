@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 @NamedQueries({
-        @NamedQuery(name = User.FINDBYUSERNAME, query = "select u from User u where u.username = :username and u.active = true")
+        @NamedQuery(name = User.FIND_BY_USERNAME, query = "select u from User u where u.username = :username and u.active = true")
 })
 public class User implements Serializable{
     
@@ -25,7 +25,7 @@ public class User implements Serializable{
     @Column(name = "active")
     private Boolean active;
     
-    public static final String FINDBYUSERNAME = "User.findByUsername";        
+    public static final String FIND_BY_USERNAME = "User.findByUsername";        
 
     public User() {
     }
@@ -40,7 +40,7 @@ public class User implements Serializable{
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActivo(Boolean active) {
         this.active = active;
     }
 

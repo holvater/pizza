@@ -4,7 +4,17 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:s="http://jboss.org/seam/faces"                
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/layout.xhtml">
+    
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.login_title}" />
+    
+    <ui:define name="head">        
+        <f:metadata>            
+            <s:viewAction action="index" if="#{identity.loggedIn}"/>              
+        </f:metadata>
+    </ui:define>
 
     <ui:define name="content">
         

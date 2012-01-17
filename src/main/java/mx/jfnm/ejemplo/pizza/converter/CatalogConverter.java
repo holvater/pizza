@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import mx.jfnm.ejemplo.pizza.domain.Catalog;
 
 @RequestScoped
-@FacesConverter("catalogConverter")
+@FacesConverter(value = "catalogConverter")
 public class CatalogConverter implements Converter {
 
     @Inject
@@ -18,7 +18,7 @@ public class CatalogConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
-        Long id = Long.parseLong(string);
+        Long id = Long.parseLong(string);        
         return em.find(Catalog.class, id);
     }
 

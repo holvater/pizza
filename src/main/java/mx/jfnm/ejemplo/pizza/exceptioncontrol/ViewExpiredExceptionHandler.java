@@ -1,6 +1,6 @@
 package mx.jfnm.ejemplo.pizza.exceptioncontrol;
 
-import javax.enterprise.context.NonexistentConversationException;
+import javax.faces.application.ViewExpiredException;
 import javax.faces.context.FacesContext;
 import org.jboss.solder.exception.control.CaughtException;
 import org.jboss.solder.exception.control.Handles;
@@ -14,14 +14,14 @@ import org.jboss.weld.context.http.HttpConversationContext;
  */
 
 @HandlesExceptions
-public class NonexistentConversationExceptionHandler {    
+public class ViewExpiredExceptionHandler {    
 
-    public void conversationEndedExceptionHandler(@Handles(precedence = 100) CaughtException<NonexistentConversationException> event, Logger log, 
+    public void conversationEndedExceptionHandler(@Handles(precedence = 100) CaughtException<ViewExpiredException> event, Logger log, 
             HttpConversationContext conversationContext, FacesContext facesContext) {
-        log.warn("Conversation expired, redirecting to error page");
+        log.warn("View expired, redirecting to error page");
         conversationContext.activate(null); 
         event.handled();
-        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, "*", "conversationEnded");
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, "*", "viewExpired");
     }
     
 }

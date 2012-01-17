@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 @NamedQueries({
-        @NamedQuery(name = Role.FINDBYUSERNAME, query = "select r from Role r where r.user.username = :username and r.active = true")
+        @NamedQuery(name = Role.FIND_BY_USERNAME, query = "select r from Role r where r.user.username = :username and r.active = true")
 })
 public class Role implements Serializable{
     
@@ -40,10 +40,10 @@ public class Role implements Serializable{
     private Boolean active;
     
     @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
     
-    public static final String FINDBYUSERNAME = "Role.findByUsername";
+   @JoinColumn(name = "username") private User user;
+    
+    public static final String FIND_BY_USERNAME = "Role.findByUsername";
 
     public Role() {
     }

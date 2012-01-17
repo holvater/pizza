@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="id" required="true"/>        
+        <cc:attribute name="showContinueButton" default="false"/>
+        <cc:attribute name="showCancelButton" default="false"/>
+        <cc:attribute name="showAddPizzaButton" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:panel header="#{msgs.create_yourOrder}" id="pizzas">	  
+            <h:form prependId="false">
+                <h:outputText rendered="#{empty order.pizzas}" value="#{msgs.create_empty}"/>
+                <h:panelGroup rendered="#{not empty order.pizzas}">
+                    <ui:repeat value="#{order.pizzas}" var="pizza">
+                        <h:outputText value="#{pizza.sizee.shortDescription} #{pizza.crust.shortDescription} #{msgs.pizza}" 
+                                      styleClass="important"/>
+                        <br/>           
+                        <h:outputLabel value="#{msgs.pizza_toppings}:" styleClass="boldLabel"/>
+                        <ui:repeat value="#{pizza.toppings}" var="topping">                                    
+                            #{topping.shortDescription},         
+                        </ui:repeat>         
+                        <br/>
+                        <p:commandLink value="#{msgs.button_edit}" action="#{pizzaOrderAgent.editPizza(pizza)}" 
+                                       ajax="false"/>
+                        <p:spacer width="20"/>
+                        <p:commandLink value="#{msgs.button_remove}" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
+                                       update="#{cc.attrs.id}:pizzas"/>
+                        <p:separator style="width:200px;"/> 
+                    </ui:repeat> 
+                    <p:commandButton value="#{msgs.button_continue}" action="delivery"
+                                     ajax="false" rendered="#{cc.attrs.showContinueButton}"/>
+                    <p:commandButton value="#{msgs.button_addNewPizza}" action="#{pizzaOrderAgent.addNewPizza}"
+                                     ajax="false" rendered="#{cc.attrs.showAddPizzaButton}"/>
+                    <p:spacer width="25"/>
+                    <p:commandButton value="#{msgs.button_cancel}" action="#{pizzaOrderAgent.cancelOrder}" 
+                                     ajax="false" rendered="#{cc.attrs.showCancelButton}"/>
+                </h:panelGroup>                    
+            </h:form>
+        </p:panel>   
+    </cc:implementation>
+</html>

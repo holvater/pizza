@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,46 +18,57 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Juan Fco. Navarrete
  */
+
 @Entity
-@Table(name="delivery_order")
-@NamedQueries ({
-    @NamedQuery(name="Order.findAll", query="select o from Order o order by o.creationDate desc")
+@Table(name = "delivery_order")
+@NamedQueries({
+    @NamedQuery(name = Order.FIND_BY_DATE, query = "select o from Order o where o.creationDate > :date order by o.creationDate desc")
 })
 public class Order implements Serializable{
-    
-    public static final String FINDALL = "Order.findAll";
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @Id    
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="creation_date")
+    @Temporal(TemporalType.TIMESTAMP)   
+    @Column(name = "creation_date")
     private Date creationDate;
-    
+        
     @ManyToOne
-    @JoinColumn(name="username")
+    @JoinColumn(name = "username")
     private User user;
     
     @ManyToOne
-    @JoinColumn(name="id_address")
+    @JoinColumn(name = "id_address")
     private Address address;
     
-    @OneToMany(mappedBy="order")
+    @Size(min = 1)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)    
     private List<Pizza> pizzas;
+    
+    public static final String FIND_BY_DATE = "Order.findByDate";
 
     public Order() {
     }
 
     public Order(User user) {
-        this.user = user;        
+        this.user = user;            
         this.pizzas = new ArrayList<Pizza>();
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Long getId() {
@@ -67,14 +79,6 @@ public class Order implements Serializable{
         this.id = id;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-    
     public Address getAddress() {
         return address;
     }

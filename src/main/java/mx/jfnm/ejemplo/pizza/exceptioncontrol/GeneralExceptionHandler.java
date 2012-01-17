@@ -9,7 +9,7 @@ import org.jboss.solder.exception.control.HandlesExceptions;
 public class GeneralExceptionHandler {
 
     public void printExceptionMessage(@Handles(precedence = 0) CaughtException<Throwable> event, Logger log) {
-        log.info("Exception logged by seam-catch catcher: " + event.getException().getMessage());        
+        log.error("Exception logged by seam-catch catcher", event.getException());
         event.rethrow();
     }
     

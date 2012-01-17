@@ -24,7 +24,7 @@ public class UserManager implements Serializable {
     
     public void onLogin(@Observes @Authenticated User user, HttpServletRequest request) {        
         currentUser = user;
-        request.getSession().setMaxInactiveInterval(3600);
+        request.getSession().setMaxInactiveInterval(3600); //3600 seconds
     }
         
 }

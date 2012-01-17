@@ -6,8 +6,13 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/WEB-INF/templates/layout.xhtml">
 
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.denied_title}" />
+
     <ui:define name="content">
-        denied        
+        
+        <h2>#{msgs.denied_title}</h2>
+        #{msgs.denied_message}                         
+        
     </ui:define>
 
 </ui:composition>

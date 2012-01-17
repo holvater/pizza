@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>     
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"      
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="id" required="true"/>
+        <cc:attribute name="label" required="true"/>
+        <cc:attribute name="value" required="true"/>
+        <cc:attribute name="min" required="true"/>
+        <cc:attribute name="max" required="true"/>
+        <cc:attribute name="redFrom" default="0"/>
+        <cc:attribute name="redTo" default="0"/>
+        <cc:attribute name="greenFrom" default="0"/>
+        <cc:attribute name="greenTo" default="0"/>
+        <cc:attribute name="yellowFrom" default="0"/>
+        <cc:attribute name="yellowTo" default="0"/>
+        <cc:attribute name="minorTicks" default="5"/>
+        <cc:attribute name="width" default="200"/>
+        <cc:attribute name="height" default="200"/>
+        <cc:attribute name="majorTicks" default="1,2"/>
+        <cc:attribute name="poll" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+        <script type='text/javascript'>
+          google.load('visualization', '1', {packages:['gauge']});    
+          google.setOnLoadCallback(drawChart);
+          var data;
+          var options;
+          var chart;
+          function drawChart() {
+                data = new google.visualization.DataTable();
+                data.addColumn('string', 'Label');
+                data.addColumn('number', 'Value');
+                data.addRows(1);
+                data.setValue(0, 0, '#{cc.attrs.label}');
+                data.setValue(0, 1, #{cc.attrs.value});
+                
+                options = {
+                    width: #{cc.attrs.width}, 
+                    height: #{cc.attrs.height},
+                    max: #{cc.attrs.max},
+                    min: #{cc.attrs.min},
+                    redFrom: #{cc.attrs.redFrom}, redTo: #{cc.attrs.redTo},
+                    yellowFrom: #{cc.attrs.yellowFrom}, yellowTo: #{cc.attrs.yellowTo},
+                    greenFrom: #{cc.attrs.greenFrom}, greenTo: #{cc.attrs.greenTo},
+                    minorTicks: #{cc.attrs.minorTicks},
+                    majorTicks: #{cc.attrs.majorTicks}
+                };
+                
+                chart = new google.visualization.Gauge(document.getElementById('gchart_#{cc.attrs.id}'));
+                chart.draw(data, options);
+            } 
+            function #{cc.attrs.updatename}(newValue) {
+                data.setValue(0, 1, newValue);
+                chart.draw(data, options);
+            }
+        </script>     
+        <div id="#{cc.attrs.id}"/>
+        <div id="gchart_#{cc.attrs.id}" align="center">            
+        </div>
+    </cc:implementation>
+</html>

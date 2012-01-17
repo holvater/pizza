@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>pizza.git</name>
+    <name>pizza</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -32,7 +32,7 @@
     <dependencies>
         
         <!-- Java EE 6 -->
-        
+       
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -94,7 +94,7 @@
         <dependency>  
             <groupId>org.primefaces</groupId>  
             <artifactId>primefaces</artifactId>  
-            <version>3.0.RC1</version>  
+            <version>3.0</version>  
         </dependency> 
         
         <dependency>  
@@ -117,7 +117,13 @@
             <name>PrimeFaces Maven Repository</name>
             <url>http://repository.primefaces.org</url>
             <layout>default</layout>
-        </repository>                
+        </repository>
+        <repository>
+            <url>http://ftp.ing.umu.se/mirror/eclipse/rt/eclipselink/maven.repo/</url>
+            <id>eclipselink</id>
+            <layout>default</layout>
+            <name>Repository for library Library[eclipselink]</name>
+        </repository>
     </repositories>
         
     <build>
@@ -182,8 +188,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <datasource>jdbc/pizzaLocal</datasource>
+            <properties>                
                 <provider.properties>
                     <![CDATA[
                         <property name="toplink.logging.level" value="FINE" />
@@ -193,39 +198,46 @@
         </profile>   
         
         <profile>
-            <id>cloudbees-deployment</id>    
-            <properties>
-                <datasource>jdbc/pizza</datasource>
+            <id>jelastic</id>    
+            <properties>   
                 <provider.properties>
                     <![CDATA[
-                        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+                        <property name="toplink.logging.level" value="FINE" />
                     ]]>
                 </provider.properties>            
-            </properties>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>bees-plugins-snapshots</id>
-                    <url>http://repository-cloudbees.forge.cloudbees.com/public-release/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
+            </properties>            
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.cloudbees</groupId>
-                        <artifactId>bees-maven-plugin</artifactId>
-                        <version>1.2.2</version>
-                        <configuration>                            
-                            <goals>install</goals>                    
+                        <groupId>com.jelastic</groupId>
+                        <artifactId>jelastic-maven-plugin</artifactId>
+                        <version>1.6-SNAPSHOT</version>
+                        <configuration>
+                            <email>jfco.navarrete@gmail.com</email>
+                            <password>3elwfk0CBw</password>
+                            <context>ROOT</context>
+                            <environment>pizza</environment>
+                            <api_hoster>app.jelastic.servint.net</api_hoster>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-        </profile>            
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>plugins-release</name>
+                    <url>http://repo.jelastic.servint.net/maven.jelastic.com</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots/>
+                    <id>snapshots</id>
+                    <name>plugins-snapshot</name>
+                    <url>http://repo.jelastic.servint.net/maven.jelastic.com-snapshot</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>                       
     </profiles>
 </project>

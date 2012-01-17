@@ -23,21 +23,21 @@ public class PizzaComponentsProducer {
     @Produces
     @ConversationScoped    
     public List<Catalog> getPizzaSizes() {
-        return em.createNamedQuery(Catalog.FINDBYGROUP).setParameter("groupId", CatalogIndex.PIZZA_SIZES).getResultList();
+        return em.createNamedQuery(Catalog.FIND_BY_GROUP).setParameter("groupId", CatalogIndex.PIZZA_SIZES).getResultList();
     }
     
     @Named
     @Produces
     @ConversationScoped    
     public List<Catalog> getPizzaCrusts() {
-        return em.createNamedQuery(Catalog.FINDBYGROUP).setParameter("groupId", CatalogIndex.PIZZA_CRUSTS).getResultList();
+        return em.createNamedQuery(Catalog.FIND_BY_GROUP).setParameter("groupId", CatalogIndex.PIZZA_CRUSTS).getResultList();
     }
     
     @Named
     @Produces
     @ConversationScoped    
     public List<Catalog> getPizzaToppings() {
-        return em.createNamedQuery(Catalog.FINDBYGROUP).setParameter("groupId", CatalogIndex.PIZZA_TOPPINGS).getResultList();
+        return em.createNamedQuery(Catalog.FIND_BY_GROUP).setParameter("groupId", CatalogIndex.PIZZA_TOPPINGS).getResultList();
     }
     
 }

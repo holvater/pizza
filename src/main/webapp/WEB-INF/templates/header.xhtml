@@ -6,7 +6,7 @@
     <h:panelGroup rendered="#{identity.loggedIn}">
         <h:form>
             #{msgs.security_logged_in} <b>#{identity.user.id}</b> - 
-            <h:commandLink value="#{msgs.button_log_out}" action="#{passportAgent.logout}" />
+            <h:commandLink value="#{msgs.button_log_out}" action="#{logoutAgent.logout}" />
         </h:form>
     </h:panelGroup> 
 

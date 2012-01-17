@@ -29,8 +29,7 @@ public class AuthenticatorImpl extends BaseAuthenticator implements Authenticato
     @Inject
     private Messages messages;
     
-    @Inject
-    @TypedCategory(AuthenticatorImpl.class)
+    @Inject   
     private SecurityLog log;
     
     @Inject
@@ -51,20 +50,14 @@ public class AuthenticatorImpl extends BaseAuthenticator implements Authenticato
         }
         
         try {
-            User user = (User) em.createNamedQuery(User.FINDBYUSERNAME)
-                    .setParameter("username", credentials.getUsername()).getSingleResult();
+            User user = (User) em.createNamedQuery(User.FIND_BY_USERNAME).setParameter("username", credentials.getUsername()).getSingleResult();
             if (credentials.getCredential() instanceof PasswordCredential
-                    && user.getPassword()
-                    .equals(((PasswordCredential) credentials.getCredential()).getValue())) {
+                    && user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
                 //Load role from DB
-                Role role = (Role)em.createNamedQuery(Role.FINDBYUSERNAME)
-                        .setParameter("username", credentials.getUsername()).getSingleResult();                
-                String roleName = em.find(Catalog.class, 
-                        role.getRole().getId()).getShortDescription();
-                String group = em.find(Catalog.class, 
-                        role.getGroup().getId()).getShortDescription();
-                String groupType = em.find(Catalog.class,
-                        role.getGroupType().getId()).getShortDescription();                
+                Role role = (Role)em.createNamedQuery(Role.FIND_BY_USERNAME).setParameter("username", credentials.getUsername()).getSingleResult();                
+                String roleName = em.find(Catalog.class, role.getRole().getId()).getShortDescription();
+                String group = em.find(Catalog.class, role.getGroup().getId()).getShortDescription();
+                String groupType = em.find(Catalog.class, role.getGroupType().getId()).getShortDescription();                
                 //Add role to user                
                 identity.addRole(roleName, group, groupType);                
                 log.loginSucceeded(credentials.getUsername());                

@@ -7,68 +7,83 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:s="http://jboss.org/seam/faces"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp"
                 template="/WEB-INF/templates/layout.xhtml">
 
-    <ui:param name="title" value="Pizza - Delivery Address" />
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.delivery_title}" />
 
     <ui:define name="metadata">
         <f:metadata>            
-            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null
-                                                     || empty pizzaOrderAgent.order.pizzas}"/>              
+            <s:viewAction action="createOrder" if="#{pizzaOrderAgent.order eq null || empty pizzaOrderAgent.order.pizzas}"/>              
         </f:metadata>
     </ui:define>
 
-    <ui:define name="content">       
+    <ui:define name="content">    
 
-        <div class="col_w540">
-            <h2>Delivery Address</h2>
+        <div class="col_w540">          
 
-            <h:form>                   
+            <h2>#{msgs.delivery_title}</h2>            
+            #{msgs.delivery_message}
+            <br/><br/>          
+
+            <h:form id="form">                   
                 <p:panel header="#{msgs.delivery_message}">
                     <ui:repeat value="#{userAddresses}" var="address">
-                        <h:outputText value="#{msgs.delivery_address}" 
-                                          styleClass="boldLabel"/>
+                        <h:outputText value="#{address.name}" 
+                                      styleClass="boldLabel"/>
                         <br/>
-                        #{address.street} #{address.exteriorNumber} <h:outputText value="- #{address.interiorNumber}" rendered="#{address.interiorNumber ne null}"/>
+                        #{address.street} #{address.exteriorNumber}  
+                        <h:outputText value=" #{address.interiorNumber}" rendered="#{address.interiorNumber ne null}"/>
                         <br/>
                         Zip #{address.zipCode}, #{address.state.shortDescription}, #{address.country.shortDescription}                                            
                         <br/>
-                        <p:commandButton value="#{msgs.button_select}" action="#{pizzaOrderAgent.addAddressToOrder(address)}" 
-                                           ajax="false"/>
-                        <p:separator style="width:500px;"/> 
+                        <p:commandLink value="#{msgs.button_select}" action="#{pizzaOrderAgent.addressSelection(address)}" 
+                                       ajax="false"/>
+                        <p:spacer width="25"/>
+                        <p:commandLink value="#{msgs.button_edit}" actionListener="#{addressManager.setCurrentAddress(address)}"
+                                       oncomplete="editDialog.show()" update=":form:display" />                            
+                        <p:separator style="width:500px;"/>                         
                     </ui:repeat>
                 </p:panel>
 
+                <p:dialog header="#{msgs.delivery_editHeader}" widgetVar="editDialog" 
+                          width="500">                      
+
+                    <p>#{msgs.delivery_editMessage}</p>
+
+                    <h:panelGrid columns="2" id="display">
+                        #{msgs.address_name}
+                        <p:inputText value="#{currentAddress.name}"/>
+                        #{msgs.address_street}
+                        <p:inputText value="#{currentAddress.street}"/>                
+                        #{msgs.address_exteriorNumber}
+                        <p:inputText value="#{currentAddress.exteriorNumber}"/>                
+                        #{msgs.address_interiorNumber}
+                        <p:inputText value="#{currentAddress.interiorNumber}"/>
+                        #{msgs.address_zipCode}
+                        <p:inputText value="#{currentAddress.zipCode}"/>                        
+                        #{msgs.address_state}   
+                        <h:panelGroup>                            
+                            <p:selectOneMenu value="#{currentAddress.country}" converter="catalogConverter">
+                                <f:selectItems value="#{addressCountries}" var="country"
+                                               itemLabel="#{country.shortDescription}"/>
+                                <p:ajax update="statesLabel"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="statesLabel" value="#{currentAddress.state}" 
+                                             converter="catalogConverter" rendered="#{currentAddress.country ne null}">
+                                <f:selectItems value="#{countryStates}" var="address"
+                                               itemLabel="#{address.shortDescription}"/>                            
+                            </p:selectOneMenu> 
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:commandButton value="Submit" update=":form" 
+                                     oncomplete="editDialog.hide();" actionListener="#{addressManager.saveAddress(currentAddress)}"/>                     
+                </p:dialog> 
             </h:form>            
         </div>
 
         <div class="col_w240 last_col">
-            <p:panel header="Order" id="order">	  
-                <h:form>
-                    <h:outputText rendered="#{empty order.pizzas}" value="Your order is currently empty."/>
-                    <h:panelGroup rendered="#{not empty order.pizzas}">
-                        <ui:repeat value="#{order.pizzas}" var="pizza">
-                            <h:outputText value="#{pizza.size.shortDescription} #{pizza.crust.shortDescription} Pizza" 
-                                          styleClass="important"/>
-                            <br/>           
-                            <h:outputLabel value="Toppings:" styleClass="boldLabel"/>
-                            <ui:repeat value="#{pizza.toppings}" var="topping">                                    
-                                #{topping.shortDescription},         
-                            </ui:repeat>         
-                            <br/>
-                            <p:commandLink value="Edit" action="#{pizzaOrderAgent.editPizza(pizza)}" 
-                                           ajax="false"/>
-                            <p:spacer width="20"/>
-                            <p:commandLink value="Remove" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
-                                           update="order"/>
-
-                            <p:separator style="width:200px;" /> 
-                        </ui:repeat>                         
-                        <p:spacer width="25"/>
-                        <p:commandButton value="Cancel" action="#{pizzaOrderAgent.cancelOrder}" ajax="false"/>
-                    </h:panelGroup>                    
-                </h:form>
-            </p:panel>
+            <ez:pizzaOrder showAddPizzaButton="true" showCancelButton="true" id="pizzas"/>                             
         </div>
 
     </ui:define>

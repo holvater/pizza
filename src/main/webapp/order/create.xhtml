@@ -7,9 +7,10 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:s="http://jboss.org/seam/faces"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ez="http://java.sun.com/jsf/composite/ezcomp"
                 template="/WEB-INF/templates/layout.xhtml">
 
-    <ui:param name="title" value="Pizza - Create Order" />
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.create_title}" />
 
     <ui:define name="metadata">
         <f:metadata>            
@@ -19,23 +20,24 @@
 
     <ui:define name="content">       
 
-        <div class="col_w540">
-            <h2>#{msgs.order_title}</h2>
-            #{conversation.id}
+        <div class="col_w540">            
+            <h2>#{msgs.create_title}</h2>
+            #{msgs.create_message}#{conversation.id}
+            <br/><br/>                                    
             <h:form>                   
                 <p:wizard id="wizard" widgetVar="wizard">	
-                    <p:tab title="#{msgs.order_size}" id="size">
-                        <p:panel header="#{msgs.order_size_message}">			
+                    <p:tab title="#{msgs.create_size}" id="size">
+                        <p:panel header="#{msgs.create_sizeMessage}">			
                             <h:messages styleClass="errorMessages"/>
-                            <p:selectOneRadio value="#{pizzaOrderAgent.currentPizza.size}" converter="catalogConverter"
+                            <p:selectOneRadio value="#{pizzaOrderAgent.currentPizza.sizee}" converter="catalogConverter"
                                               layout="pageDirection">  
                                 <f:selectItems value="#{pizzaSizes}" var="size" 
                                                itemLabel="#{size.shortDescription}"/>
                             </p:selectOneRadio>                              
                         </p:panel>
                     </p:tab>
-                    <p:tab title="#{msgs.order_crust}" id="crust">
-                        <p:panel header="#{msgs.order_crust_message}">			
+                    <p:tab title="#{msgs.create_crust}" id="crust">
+                        <p:panel header="#{msgs.create_crustMessage}">			
                             <h:messages styleClass="errorMessages"/>
                             <p:selectOneRadio value="#{pizzaOrderAgent.currentPizza.crust}" converter="catalogConverter"
                                               layout="pageDirection">  
@@ -44,8 +46,8 @@
                             </p:selectOneRadio>     
                         </p:panel>
                     </p:tab>
-                    <p:tab title="#{msgs.order_toppings}" id="toppings">
-                        <p:panel header="#{msgs.order_toppings_message}">			
+                    <p:tab title="#{msgs.create_toppings}" id="toppings">
+                        <p:panel header="#{msgs.create_toppingsMessage}">			
                             <h:messages styleClass="errorMessages"/>
                             <p:selectManyCheckbox value="#{pizzaOrderAgent.currentPizza.toppings}" converter="catalogConverter"
                                                   layout="pageDirection">
@@ -54,14 +56,14 @@
                             </p:selectManyCheckbox>
                         </p:panel>
                     </p:tab>
-                    <p:tab title="Confirm" id="confirm">
-                        <p:panel header="Your pizza">			
+                    <p:tab title="#{msgs.create_confirm}" id="confirm">
+                        <p:panel header="#{msgs.create_confirmMessage}">			
                             <h:messages/>
                             <h:panelGrid columns="2">
                                 <h:outputLabel value="#{msgs.pizza_size}:" styleClass="boldLabel"/>
-                                <h:outputText value="#{pizzaOrderAgent.currentPizza.size.shortDescription}"/>
+                                <h:outputText value="#{pizzaOrderAgent.currentPizza.sizee.shortDescription}"/>
                                 <h:outputLabel value="#{msgs.pizza_crust}:" styleClass="boldLabel"/>
-                                <h:outputText value="#{pizzaOrderAgent.currentPizza.size.shortDescription}"/>
+                                <h:outputText value="#{pizzaOrderAgent.currentPizza.crust.shortDescription}"/>
                                 <h:outputLabel value="#{msgs.pizza_toppings}:" styleClass="boldLabel"/>
                                 <h:panelGroup>
                                     <ui:repeat value="#{pizzaOrderAgent.currentPizza.toppings}" var="topping">                                    
@@ -71,7 +73,7 @@
                             </h:panelGrid>        
                             <br/>
                             <p:commandButton value="#{msgs.button_addPizzaToOrder}" action="#{pizzaOrderAgent.addPizzaToOrder}"
-                                             update="wizard,order" immediate="true" ajax="false"/>
+                                             immediate="true" ajax="false"/>
                         </p:panel>
                     </p:tab>
                 </p:wizard>                
@@ -79,33 +81,7 @@
         </div>
 
         <div class="col_w240 last_col">
-            <p:panel header="Order" id="order">	  
-                <h:form>
-                    <h:outputText rendered="#{empty order.pizzas}" value="#{msgs.order_empty}"/>
-                    <h:panelGroup rendered="#{not empty order.pizzas}">
-                        <ui:repeat value="#{order.pizzas}" var="pizza">
-                            <h:outputText value="#{pizza.size.shortDescription} #{pizza.crust.shortDescription} #{msgs.pizza}" 
-                                          styleClass="important"/>
-                            <br/>           
-                            <h:outputLabel value="#{msgs.pizza_toppings}:" styleClass="boldLabel"/>
-                            <ui:repeat value="#{pizza.toppings}" var="topping">                                    
-                                #{topping.shortDescription},         
-                            </ui:repeat>         
-                            <br/>
-                            <p:commandLink value="#{msgs.button_edit}" action="#{pizzaOrderAgent.editPizza(pizza)}" 
-                                           ajax="false"/>
-                            <p:spacer width="20"/>
-                            <p:commandLink value="#{msgs.button_remove}" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
-                                           update="order"/>
-
-                            <p:separator style="width:200px;"/> 
-                        </ui:repeat> 
-                        <p:commandButton value="#{msgs.button_continue}" action="delivery" ajax="false"/>
-                        <p:spacer width="25"/>
-                        <p:commandButton value="#{msgs.button_cancel}" action="#{pizzaOrderAgent.cancelOrder}" ajax="false"/>
-                    </h:panelGroup>                    
-                </h:form>
-            </p:panel>            
+            <ez:pizzaOrder showContinueButton="true" showCancelButton="true" id="pizzas"/>                 
         </div>
 
     </ui:define>

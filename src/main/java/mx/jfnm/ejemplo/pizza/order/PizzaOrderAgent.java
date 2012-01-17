@@ -3,7 +3,6 @@ package mx.jfnm.ejemplo.pizza.order;
 import java.io.Serializable;
 import java.util.Date;
 import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -16,10 +15,11 @@ import mx.jfnm.ejemplo.pizza.domain.Pizza;
 import mx.jfnm.ejemplo.pizza.domain.User;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.solder.logging.Logger;
 
 /**
  *
- * @author Juan Fco
+ * @author Juan Fco. Navarrete
  */
 
 @Named
@@ -29,20 +29,19 @@ public class PizzaOrderAgent implements Serializable {
 
     @Inject
     @Authenticated
-    private User user;
-    
-    private Order order;
-    private Pizza currentPizza;   
-    
-    @Inject
-    private Conversation conversation;  
+    private User user;        
     
     @Inject
     private EntityManager em;
     
+    @Inject
+    private Logger log;
+    
+    private Order order;    
+    private Pizza currentPizza;  
+    
     @Named
-    @Produces
-    @ConversationScoped    
+    @Produces    
     public Order getOrder() {
         return order;
     }
@@ -55,18 +54,20 @@ public class PizzaOrderAgent implements Serializable {
         this.currentPizza = currentPizza;
     }             
     
-    @Begin
-    public void begin() {
-        order = new Order(user);            
+    @Begin(timeout = 15 * 60 * 1000) //milliseconds
+    public void begin() {       
+        log.infov("User {0} is creating an order", user.getUsername());
+        order = new Order(user);           
         currentPizza = new Pizza(order);
     }
     
     @End
     public String confirmOrder() {
         order.setCreationDate(new Date());
-        for(Pizza p: order.getPizzas())
-            em.persist(p);
+        for(Pizza pizza : order.getPizzas())
+            em.persist(pizza);
         em.persist(order);
+        log.infov("Order {0} placed by {1} with {2} pizzas", order.getId(), user.getUsername(), order.getPizzas().size());        
         return "completed";
     }
 
@@ -84,14 +85,19 @@ public class PizzaOrderAgent implements Serializable {
         return "createOrder";
     }
     
+    public String addNewPizza() {
+        currentPizza = new Pizza(order);    
+        return "createOrder";
+    }
+    
     public String addPizzaToOrder() {        
         order.getPizzas().remove(currentPizza);
         order.getPizzas().add(currentPizza);
-        currentPizza = new Pizza(order);        
+        currentPizza = new Pizza(order);    
         return "createOrder";
     }        
     
-    public String addAddressToOrder(Address address) {
+    public String addressSelection(Address address) {        
         order.setAddress(address);
         return "confirmOrder";
     }

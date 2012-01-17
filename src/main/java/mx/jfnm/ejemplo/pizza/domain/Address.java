@@ -1,6 +1,5 @@
 package mx.jfnm.ejemplo.pizza.domain;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,14 +19,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 @NamedQueries({
-        @NamedQuery(name = Address.FINDBYUSERNAME, query = "select a from Address a where a.user.username = :username and a.active = true")
+        @NamedQuery(name = Address.FIND_BY_USERNAME, query = "select a from Address a where a.user.username = :username and a.active = true")
 })
-public class Address implements Serializable{
+public class Address {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
     private Long id;
+    
+    @Column(name = "name")
+    private String name;
     
     @Column(name = "street")
     private String street;
@@ -56,12 +58,13 @@ public class Address implements Serializable{
     @JoinColumn(name = "username")
     private User user;
     
-    public static final String FINDBYUSERNAME = "Address.findByUsername";
+    public static final String FIND_BY_USERNAME = "Address.findByUsername";    
 
     public Address() {
     }
 
-    public Address(String street, String exteriorNumber, String interiorNumber, String zipCode, Catalog state, Catalog country, Boolean active, User user) {
+    public Address(String name, String street, String exteriorNumber, String interiorNumber, String zipCode, Catalog state, Catalog country, Boolean active, User user) {
+        this.name = name;
         this.street = street;
         this.exteriorNumber = exteriorNumber;
         this.interiorNumber = interiorNumber;
@@ -70,6 +73,14 @@ public class Address implements Serializable{
         this.country = country;
         this.active = active;
         this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getActive() {
