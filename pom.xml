@@ -32,7 +32,6 @@
     <dependencies>
         
         <!-- Java EE 6 -->
-       
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

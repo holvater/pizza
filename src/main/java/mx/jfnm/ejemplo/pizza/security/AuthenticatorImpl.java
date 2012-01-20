@@ -10,7 +10,7 @@ import mx.jfnm.ejemplo.pizza.domain.Catalog;
 import mx.jfnm.ejemplo.pizza.domain.Role;
 import mx.jfnm.ejemplo.pizza.domain.User;
 import mx.jfnm.ejemplo.pizza.i18n.DefaultBundleKey;
-import mx.jfnm.ejemplo.pizza.logs.SecurityLog;
+import mx.jfnm.ejemplo.pizza.log.SecurityLog;
 
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Authenticator;

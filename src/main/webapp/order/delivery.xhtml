@@ -21,26 +21,25 @@
     <ui:define name="content">    
 
         <div class="col_w540">          
-
             <h2>#{msgs.delivery_title}</h2>            
             #{msgs.delivery_message}
             <br/><br/>          
 
             <h:form id="form">                   
                 <p:panel header="#{msgs.delivery_message}">
-                    <ui:repeat value="#{userAddresses}" var="address">
-                        <h:outputText value="#{address.name}" 
+                    <ui:repeat value="#{userAddresses}" var="_address">
+                        <h:outputText value="#{_address.name}" 
                                       styleClass="boldLabel"/>
                         <br/>
-                        #{address.street} #{address.exteriorNumber}  
-                        <h:outputText value=" #{address.interiorNumber}" rendered="#{address.interiorNumber ne null}"/>
+                        #{_address.street} #{_address.exteriorNumber}  
+                        <h:outputText value=" #{_address.interiorNumber}" rendered="#{_address.interiorNumber ne null}"/>
                         <br/>
-                        Zip #{address.zipCode}, #{address.state.shortDescription}, #{address.country.shortDescription}                                            
+                        Zip #{_address.zipCode}, #{_address.state.shortDescription}, #{_address.country.shortDescription}                                            
                         <br/>
-                        <p:commandLink value="#{msgs.button_select}" action="#{pizzaOrderAgent.addressSelection(address)}" 
+                        <p:commandLink value="#{msgs.button_select}" action="#{pizzaOrderAgent.addressSelection(_address)}" 
                                        ajax="false"/>
                         <p:spacer width="25"/>
-                        <p:commandLink value="#{msgs.button_edit}" actionListener="#{addressManager.setCurrentAddress(address)}"
+                        <p:commandLink value="#{msgs.button_edit}" actionListener="#{addressManager.setCurrentAddress(_address)}"
                                        oncomplete="editDialog.show()" update=":form:display" />                            
                         <p:separator style="width:500px;"/>                         
                     </ui:repeat>
@@ -48,7 +47,6 @@
 
                 <p:dialog header="#{msgs.delivery_editHeader}" widgetVar="editDialog" 
                           width="500">                      
-
                     <p>#{msgs.delivery_editMessage}</p>
 
                     <h:panelGrid columns="2" id="display">

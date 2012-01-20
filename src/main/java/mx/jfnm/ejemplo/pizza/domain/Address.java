@@ -154,5 +154,10 @@ public class Address {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" + "id=" + id + ", name=" + name + ", street=" + street + ", exteriorNumber=" + exteriorNumber + ", interiorNumber=" + interiorNumber + ", zipCode=" + zipCode + ", state=" + state + ", country=" + country + ", active=" + active + ", user=" + user + '}';
+    }
     
 }

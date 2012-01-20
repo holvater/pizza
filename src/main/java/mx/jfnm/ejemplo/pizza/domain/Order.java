@@ -102,8 +102,11 @@ public class Order implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", creationDate=" + creationDate + ", user=" + user + ", address=" + address + ", pizzas=" + pizzas + '}';
+    }
+        
 }
 

@@ -20,20 +20,20 @@
             <h:form prependId="false">
                 <h:outputText rendered="#{empty order.pizzas}" value="#{msgs.create_empty}"/>
                 <h:panelGroup rendered="#{not empty order.pizzas}">
-                    <ui:repeat value="#{order.pizzas}" var="pizza">
-                        <h:outputText value="#{pizza.sizee.shortDescription} #{pizza.crust.shortDescription} #{msgs.pizza}" 
+                    <ui:repeat value="#{order.pizzas}" var="_pizza">
+                        <h:outputText value="#{_pizza.sizee.shortDescription} #{_pizza.crust.shortDescription} #{msgs.pizza}" 
                                       styleClass="important"/>
                         <br/>           
                         <h:outputLabel value="#{msgs.pizza_toppings}:" styleClass="boldLabel"/>
-                        <ui:repeat value="#{pizza.toppings}" var="topping">                                    
-                            #{topping.shortDescription},         
+                        <ui:repeat value="#{_pizza.toppings}" var="_topping">                                    
+                            #{_topping.shortDescription},         
                         </ui:repeat>         
                         <br/>
-                        <p:commandLink value="#{msgs.button_edit}" action="#{pizzaOrderAgent.editPizza(pizza)}" 
+                        <p:commandLink value="#{msgs.button_edit}" action="#{pizzaOrderAgent.editPizza(_pizza)}" 
                                        ajax="false"/>
                         <p:spacer width="20"/>
-                        <p:commandLink value="#{msgs.button_remove}" actionListener="#{pizzaOrderAgent.removeFromOrder(pizza)}"
-                                       update="#{cc.attrs.id}:pizzas"/>
+                        <p:commandLink value="#{msgs.button_remove}" actionListener="#{pizzaOrderAgent.removeFromOrder(_pizza)}"
+                                       update="#{cc.clientId}:pizzas"/>
                         <p:separator style="width:200px;"/> 
                     </ui:repeat> 
                     <p:commandButton value="#{msgs.button_continue}" action="delivery"

@@ -4,74 +4,71 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"  
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/layout.xhtml"
-                xmlns:ezcomp="http://java.sun.com/jsf/composite/ezcomp">        
+                xmlns:ezcomp="http://java.sun.com/jsf/composite/ezcomp">
 
-    <ui:param name="title" value="#{msgs.application_name} - #{msgs.monitor_title}" />   
-
-    <ui:define name="metadata">
-        <f:metadata>
-
-        </f:metadata>
-    </ui:define>
+    <ui:param name="title" value="#{msgs.application_name} - #{msgs.monitor_title}" />
 
     <ui:define name="content">
 
-        <div class="col_w540">
-            <h2>#{msgs.monitor_title}</h2>
-            #{msgs.monitor_message}
-            <br/><br/>
+        <h:form>
+            <p:poll interval="10" update="pizzasGauge table" />
+            <div class="col_w540">
+                <h2>#{msgs.monitor_title}</h2>
+                #{msgs.monitor_message}
+                <br/><br/>
 
-            <h:form>                
-                <p:dataTable id="table" var="order" value="#{lastOrders}">
-                    <f:facet name="header">  
-                        Last Orders 
-                    </f:facet>  
-                    <p:columnGroup type="header">  
-                        <p:row>  
-                            <p:column headerText="Size"/>
-                            <p:column headerText="Crust"/>
-                            <p:column headerText="Toppings"/>
-                        </p:row> 
+                <p:dataTable id="table" var="_order" value="#{lastOrders}">
+                    <f:facet name="header">
+                        #{msgs.monitor_tableHeader}
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column headerText="#{msgs.pizza_size}"/>
+                            <p:column headerText="#{msgs.pizza_crust}"/>
+                            <p:column headerText="#{msgs.pizza_toppings}"/>
+                        </p:row>
                     </p:columnGroup>
-                    <p:subTable var="pizza" value="#{order.pizzas}">  
-                        <f:facet name="header">  
-                            Placed at
-                            <h:outputText value="#{order.creationDate}">
+                    <p:subTable var="_pizza" value="#{_order.pizzas}">
+                        <f:facet name="header">
+                            #{msgs.monitor_tablePlacetAt}
+                            <h:outputText value="#{_order.creationDate}">
                                 <f:convertDateTime type="date" pattern="HH:mm:ss"/>
                             </h:outputText>
-                            by #{order.user.username}
-                        </f:facet>     
-                        <p:column>  
-                            #{pizza.sizee.shortDescription}
-                        </p:column> 
-                        <p:column>  
-                            #{pizza.crust.shortDescription}
-                        </p:column> 
-                        <p:column>  
-                            <ui:repeat var="topping" value="#{pizza.toppings}">
-                                #{topping.shortDescription},
+                            #{monitor_tableBy} #{_order.user.username}
+                        </f:facet>
+                        <p:column>
+                            #{_pizza.sizee.shortDescription}
+                        </p:column>
+                        <p:column>
+                            #{_pizza.crust.shortDescription}
+                        </p:column>
+                        <p:column>
+                            <ui:repeat var="_topping" value="#{_pizza.toppings}">
+                                #{_topping.shortDescription},
                             </ui:repeat>
-                        </p:column> 
+                        </p:column>
                     </p:subTable>
                 </p:dataTable>
-            </h:form>            
-        </div>
+            </div>
 
-        <div class="col_w240 last_col">            
-            <h:form prependId="false">                                                
-                <p:poll interval="1" update="pizzasGauge"/>
-                <ezcomp:googleGaugeChart id="pizzasGauge" label="#{msgs.pizza}"
-                                         value="#{pizzaMonitor.todaysPizzaCount}" max="20" min="0" 
-                                         redFrom="0" redTo="10" yellowFrom="10" yellowTo="15"
-                                         greenFrom="15" greenTo="20" 
-                                         height="150" width="150"
-                                         minorTicks="5"
-                                         majorTicks="['0','5','10','15','20']" poll="true"/>
-            </h:form>            
-        </div>
+            <div class="col_w240 last_col">
+                <p:panel header="#{msgs.monitor_goalHeader}">
+                    #{msgs.monitor_goalMessage}                    
+                    <ezcomp:googleGaugeChart id="pizzasGauge" label="#{msgs.pizza}" value="#{pizzaMonitor.todaysPizzaCount}"
+                                             max="20" min="0"
+                                             redFrom="0" redTo="10"
+                                             yellowFrom="10" yellowTo="15"
+                                             greenFrom="15" greenTo="20"
+                                             height="150" width="150"
+                                             minorTicks="5"
+                                             majorTicks="['0','5','10','15','20']" poll="true"/>
+
+                </p:panel>
+            </div>
+        </h:form>
 
     </ui:define>
 

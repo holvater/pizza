@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>     
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"      
-      xmlns:p="http://primefaces.org/ui"  
+<html xmlns="http://www.w3.org/1999/xhtml"                  
       xmlns:cc="http://java.sun.com/jsf/composite">
 
     <!-- INTERFACE -->
@@ -25,8 +24,7 @@
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
-    <cc:implementation>
-
+    <cc:implementation>        
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
         <script type='text/javascript'>
           google.load('visualization', '1', {packages:['gauge']});    
@@ -54,16 +52,19 @@
                     majorTicks: #{cc.attrs.majorTicks}
                 };
                 
-                chart = new google.visualization.Gauge(document.getElementById('gchart_#{cc.attrs.id}'));
+                chart = new google.visualization.Gauge(document.getElementById('gchart_#{cc.clientId}'));
                 chart.draw(data, options);
             } 
-            function #{cc.attrs.updatename}(newValue) {
+            function changeValue(newValue) {
                 data.setValue(0, 1, newValue);
                 chart.draw(data, options);
             }
-        </script>     
-        <div id="#{cc.attrs.id}"/>
-        <div id="gchart_#{cc.attrs.id}" align="center">            
+        </script>        
+        <div id="#{cc.clientId}"> 
+            <script type='text/javascript'>
+                onload=changeValue(#{cc.attrs.value});
+            </script>
         </div>
+        <div id="gchart_#{cc.clientId}" align="center"/>                    
     </cc:implementation>
 </html>

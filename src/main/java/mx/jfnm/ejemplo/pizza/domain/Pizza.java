@@ -103,6 +103,11 @@ public class Pizza implements Serializable {
 
     public void setToppings(List<Catalog> toppings) {
         this.toppings = toppings;
-    }        
+    }
+
+    @Override
+    public String toString() {
+        return "Pizza{" + "id=" + id + ", crust=" + crust + ", sizee=" + sizee + ", toppings=" + toppings + ", order=" + order + '}';
+    }
     
 }

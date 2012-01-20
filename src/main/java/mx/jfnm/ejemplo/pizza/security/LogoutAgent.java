@@ -3,7 +3,7 @@ package mx.jfnm.ejemplo.pizza.security;
 import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
 import javax.inject.Named;
-import mx.jfnm.ejemplo.pizza.logs.SecurityLog;
+import mx.jfnm.ejemplo.pizza.log.SecurityLog;
 import org.jboss.seam.security.Identity;
 
 /**

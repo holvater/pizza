@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import mx.jfnm.ejemplo.pizza.domain.User;
 import mx.jfnm.ejemplo.pizza.i18n.DefaultBundleKey;
-import mx.jfnm.ejemplo.pizza.logs.SecurityLog;
+import mx.jfnm.ejemplo.pizza.log.SecurityLog;
 import mx.jfnm.ejemplo.pizza.account.Authenticated;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.AuthorizationException;

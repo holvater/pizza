@@ -31,8 +31,8 @@
                             <h:messages styleClass="errorMessages"/>
                             <p:selectOneRadio value="#{pizzaOrderAgent.currentPizza.sizee}" converter="catalogConverter"
                                               layout="pageDirection">  
-                                <f:selectItems value="#{pizzaSizes}" var="size" 
-                                               itemLabel="#{size.shortDescription}"/>
+                                <f:selectItems value="#{pizzaSizes}" var="_size" 
+                                               itemLabel="#{_size.shortDescription}"/>
                             </p:selectOneRadio>                              
                         </p:panel>
                     </p:tab>
@@ -41,8 +41,8 @@
                             <h:messages styleClass="errorMessages"/>
                             <p:selectOneRadio value="#{pizzaOrderAgent.currentPizza.crust}" converter="catalogConverter"
                                               layout="pageDirection">  
-                                <f:selectItems value="#{pizzaCrusts}" var="crust" 
-                                               itemLabel="#{crust.shortDescription}"/>
+                                <f:selectItems value="#{pizzaCrusts}" var="_crust" 
+                                               itemLabel="#{_crust.shortDescription}"/>
                             </p:selectOneRadio>     
                         </p:panel>
                     </p:tab>
@@ -51,8 +51,8 @@
                             <h:messages styleClass="errorMessages"/>
                             <p:selectManyCheckbox value="#{pizzaOrderAgent.currentPizza.toppings}" converter="catalogConverter"
                                                   layout="pageDirection">
-                                <f:selectItems value="#{pizzaToppings}" var="topping" 
-                                               itemLabel="#{topping.shortDescription}"/>
+                                <f:selectItems value="#{pizzaToppings}" var="_topping" 
+                                               itemLabel="#{_topping.shortDescription}"/>
                             </p:selectManyCheckbox>
                         </p:panel>
                     </p:tab>
@@ -66,8 +66,8 @@
                                 <h:outputText value="#{pizzaOrderAgent.currentPizza.crust.shortDescription}"/>
                                 <h:outputLabel value="#{msgs.pizza_toppings}:" styleClass="boldLabel"/>
                                 <h:panelGroup>
-                                    <ui:repeat value="#{pizzaOrderAgent.currentPizza.toppings}" var="topping">                                    
-                                        #{topping.shortDescription},                                        
+                                    <ui:repeat value="#{pizzaOrderAgent.currentPizza.toppings}" var="_topping">                                    
+                                        #{_topping.shortDescription},                                        
                                     </ui:repeat>
                                 </h:panelGroup>
                             </h:panelGrid>        

@@ -15,7 +15,7 @@ import mx.jfnm.ejemplo.pizza.domain.Pizza;
 
 /**
  *
- * @author Juan Fco
+ * @author Juan Fco. Navarrete
  */
 
 @Named
@@ -28,7 +28,7 @@ public class PizzaMonitor {
     
     private Long todaysPizzaCount;
     
-    private static final Date twoHoursAgo = new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 2));
+    private Date twoHoursAgo = new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 2));
     
     @Named
     @Produces     
